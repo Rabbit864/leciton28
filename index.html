@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+    <style>
+      p,
+      li {
+        font-size: 32px;
+      }
+    </style>
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <div>
+            <img src="img/docker.png" alt="" height="300" />
+          </div>
+        </section>
+        <section>
+          <h3>Что такое Docker</h3>
+          <p>
+            Докер — это открытая платформа для разработки, доставки и
+            эксплуатации приложений. Docker разработан для более быстрого
+            выкладывания ваших приложений. С помощью docker вы можете отделить
+            ваше приложение от вашей инфраструктуры и обращаться с
+            инфраструктурой как управляемым приложением. Docker помогает
+            выкладывать ваш код быстрее, быстрее тестировать, быстрее
+            выкладывать приложения и уменьшить время между написанием кода и
+            запуска кода.
+          </p>
+        </section>
+        <section>
+          <img src="img/ci-cd.png" alt="" height="400" />
+          <p style="font-size: 20px">
+            CI/CD — это continuous integration и continuous delivery. CI — это
+            build-test процесс, в рамках которого приложение собирается и
+            тестируется. На этапе CD мы разворачиваем приложение в разных
+            окружениях (тестовые контура, стейджинг, продакшн). Непрерывное
+            тестирование в цепочке CI/CD играет одну из ключевых ролей — где-то
+            между CI и CD.
+          </p>
+        </section>
+        <section>
+          <h3>Что такое docker простыми словами</h3>
+          <p>
+            У нас есть пул “чистых” агентов, на которых ничего не
+            предустановлено (кроме необходимого для работы с Docker). И есть
+            множество проектов на разных стеках. У каждого проекта — свои
+            требования по библиотекам, SDK и т.п. И благодаря Docker
+            бизнес-линии могут не делить поровну агентов между собой, а
+            использовать общие ресурсы в соответствии со своими потребностями.
+            Для этого они берут из хранилища и разворачивают на агентах
+            необходимые Docker-образы (с нужными версиями библиотек). Каждая
+            бизнес-линия использует свои Docker-образы с любыми экзотическими
+            инструментами, если таковые требуются.
+          </p>
+        </section>
+        <section>
+          <h3>Как установить докер</h3>
+          <a
+            href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04-ru"
+            >Установка на linux</a
+          >
+          <br />
+          <a href="https://docs.docker.com/desktop/install/windows-install/"
+            >Установка на windows</a
+          >
+        </section>
+        <section>
+          <h3>Архитектура docker</h3>
+          <img src="img/docker-architecture.png" alt="" />
+        </section>
+        <section>
+          <h4>Docker demon</h4>
+          <p>
+            Демон за пускается на хост-машине. Пользователь не взаимодействует с
+            сервером на прямую, а использует для этого клиент.
+          </p>
+          <h4>Docker client</h4>
+          <p>
+            Docker-клиент, программа docker — главный интерфейс к Docker. Она
+            получает команды от пользователя и взаимодействует с docker-демоном.
+          </p>
+        </section>
+        <section>
+          <h4>Образы</h4>
+          <p>
+            Docker-образ — это read-only шаблон. Например, образ может содержать
+            операционку Ubuntu c Apache и приложением на ней. Образы
+            используются для создания контейнеров. Docker позволяет легко
+            создавать новые образы, обновлять существующие, или вы можете
+            скачать образы созданные другими людьми. Образы — это компонента
+            сборки docker-а.
+          </p>
+          <h4>Реестр</h4>
+          <p>
+            Docker-реестр хранит образы. Есть публичные и приватные реестры, из
+            которых можно скачать либо загрузить образы. Публичный Docker-реестр
+            — это Docker Hub. Там хранится огромная коллекция образов. Как вы
+            знаете, образы могут быть созданы вами или вы можете использовать
+            образы созданные другими. Реестры — это компонента распространения.
+          </p>
+        </section>
+        <section>
+          <h4>Контейнеры</h4>
+          <p>
+            Контейнеры похожи на директории. В контейнерах содержится все, что
+            нужно для работы приложения. Каждый контейнер создается из образа.
+            Контейнеры могут быть созданы, запущены, остановлены, перенесены или
+            удалены. Каждый контейнер изолирован и является безопасной
+            платформой для приложения. Контейнеры — это компонента работы.
+          </p>
+        </section>
+        <section>
+          <h3>С чего начинается работа с Dockerfile</h3>
+          <p>
+            Dockerfile — это текстовый документ, содержащий все команды, которые
+            пользователь может вызвать в командной строке для сборки образа.
+          </p>
+        </section>
+        <section>
+          <h3>Начнем с небольшого примера в python</h3>
+          <pre><code data-line-numbers="">from flask import Flask
+ 
+app = Flask(__name__)
+ 
+@app.route("/")
+def hello_world():
+	return "<p>Hello, World!</p>"</code></pre>
+        </section>
+        <section>
+          <h3>Пример Dockerfile для нашего примера</h3>
+          <pre><code data-line-numbers="">FROM python:3.9.18
+ 
+RUN pip install flask
+ 
+# копируем наш файл в главную директорию
+COPY app.py .
+ 
+CMD ["python", "app.py"]
+          </code></pre>
+        </section>
+        <section>
+          <h3>Команды для запуска docker</h3>
+          <pre><code>docker build --tag flask .</code></pre>
+          <pre><code>docker run --name flask -p 5000:5000 flask</code></pre>
+          <p>
+            Вы также можете использовать --tag, чтобы дать образу название и
+            упростить его дальнейший запуск. Здесь --name — это имя запускаемого
+            контейнера (который я назвал flask), а -p назначает порт
+            Docker-контейнера на вашем компьютере, чтобы вы могли видеть своё
+            приложение на localhost
+          </p>
+        </section>
+        <section>
+          <h3>Файловая система docker</h3>
+          <p>
+            Docker использует union file system для сочетания этих уровней в
+            один образ. Union file system позволяет файлам и директориями из
+            разных файловых систем (разным ветвям) прозрачно накладываться,
+            создавая когерентную файловую систему.
+          </p>
+        </section>
+        <section>
+          <h3>Ещё пример без файла</h3>
+          <pre><code>docker pull mysql/mysql-server:5.7</code></pre>
+          <pre><code>docker run --name mysql57 -e MYSQL_ROOT_PASSWORD=passw -e LANG=C.UTF-8 -d mysql/mysql-server:5.7
+
+docker logs mysql57</code></pre>
+          <pre><code data-line-numbers="">docker exec -it mysql57 mysql -uroot -p
+
+SHOW DATABASES;
+
+exit</code></pre>
+        </section>
+        <section>
+          <img src="img/Using MySQL in Docker - 13.png" alt="" />
+        </section>
+        <section>
+          <h3>Где посмотреть образы</h3>
+          <a href="https://hub.docker.com/">Ссылка на Docker Hub</a>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        touch: true,
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+
+      // $("pre code").each(function(){
+      //     var html = $(this).html();
+      //     var pattern = html.match(/\s*\n[\t\s]*/);
+      //     $(this).html(html.replace(new RegExp(pattern, "g"),'\n'));
+      // });
+    </script>
+  </body>
+</html>
